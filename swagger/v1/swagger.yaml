@@ -1,0 +1,121 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/assets":
+    get:
+      summary: assets ledger
+      responses:
+        '200':
+          description: successful
+  "/api/v1/revenues":
+    get:
+      summary: revenues ledger
+      responses:
+        '200':
+          description: successful
+  "/api/v1/liabilities":
+    get:
+      summary: liabilities ledger
+      responses:
+        '200':
+          description: successful
+  "/api/v1/equities":
+    get:
+      summary: equities ledger
+      responses:
+        '200':
+          description: successful
+  "/api/v1/accounts":
+    get:
+      summary: accounts ledger
+      responses:
+        '200':
+          description: successful
+  "/api/v1/entries":
+    get:
+      summary: entries ledger
+      responses:
+        '200':
+          description: successful
+  "/api/v1/amounts":
+    get:
+      summary: amounts ledger
+      responses:
+        '200':
+          description: successful
+  "/api/v1/add_entry":
+    post:
+      summary: add_entry ledger
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                date:
+                  type: string
+                  pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+                debits:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      account_name:
+                        type: string
+                      amount:
+                        type: number
+                        multipleOf: 0.1
+                credits:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      account_name:
+                        type: string
+                      amount:
+                        type: number
+                        multipleOf: 0.1
+              required:
+              - description
+              - date
+              - debits
+              - credits
+  "/api/v1/account_balance":
+    get:
+      summary: account_balance ledger
+      parameters:
+      - in: query
+        name: account_name
+        type: string
+        schema:
+          type: string
+        description: Asset name
+      - in: query
+        name: from_date
+        schema:
+          type: string
+          pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+        description: date in dddd-dd-dd format
+      - in: query
+        name: to_date
+        schema:
+          type: string
+          pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+        description: date in dddd-dd-dd format
+      responses:
+        '200':
+          description: successful
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
